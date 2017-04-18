@@ -57,20 +57,20 @@
       android:entries="@array/time_picker_color_types"
       android:entryValues="@array/time_picker_color_values"
       android:defaultValue="teal" />
-<!--
+
     <Preference
         android:persistent="false"
         android:key="@string/settings_about_key"
         android:title="@string/about"
         />
-
-  <ListPreference android:persistent="true"
-    android:key="DEBUG_MODE"
-    android:title="@string/debug_mode_title"
-    android:dialogTitle="@string/debug_mode_title"
-    android:summary="@string/debug_mode_summary"
-    android:entries="@array/debug_types"
-    android:entryValues="@array/debug_values"
-    android:defaultValue="debug_default" />
-    -->
+  <!--
+    <ListPreference android:persistent="true"
+      android:key="DEBUG_MODE"
+      android:title="@string/debug_mode_title"
+      android:dialogTitle="@string/debug_mode_title"
+      android:summary="@string/debug_mode_summary"
+      android:entries="@array/debug_types"
+      android:entryValues="@array/debug_values"
+      android:defaultValue="debug_default" />
+      -->
 </PreferenceScreen>

@@ -18,12 +18,9 @@ package io.github.carlorodriguez.alarmon;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.RemoteException;
@@ -65,7 +62,7 @@ public final class ActivityAlarmClock extends AppCompatActivity implements
 
     public static final int ACTION_TEST_ALARM = 0;
     public static final int ACTION_PENDING_ALARMS = 1;
-    MediaPlayer mMediaPlayer;
+
     private TimePickerDialog picker;
     public static ActivityAlarmClock activityAlarmClock;
 
@@ -78,7 +75,6 @@ public final class ActivityAlarmClock extends AppCompatActivity implements
     private Runnable tickCallback;
     private static RecyclerView alarmList;
     private int mLastFirstVisiblePosition;
-    AudioManager audM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,8 +97,6 @@ public final class ActivityAlarmClock extends AppCompatActivity implements
         db = new DbAccessor(getApplicationContext());
 
         handler = new Handler();
-        audM = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
-
 
         // Setup the alarm list and the underlying adapter. Clicking an individual
         // item will start the settings activity.
@@ -114,39 +108,39 @@ public final class ActivityAlarmClock extends AppCompatActivity implements
 
         alarmList.setLayoutManager(layoutManager);
 
-//        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
-//            @Override
-//            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-//                return false;
-//            }
-//
-//            @Override
-//            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-//                final AlarmInfo alarmInfo = adapter.getAlarmInfos().
-//                        get(viewHolder.getAdapterPosition());
-//
-//                final long alarmId = alarmInfo.getAlarmId();
-//
-//                removeItemFromList(ActivityAlarmClock.this, alarmId,
-//                        viewHolder.getAdapterPosition());
-//
-//                Snackbar.make(findViewById(R.id.coordinator_layout),
-//                        getString(R.string.alarm_deleted), Snackbar.LENGTH_LONG)
-//                .setAction(getString(R.string.undo), new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        undoAlarmDeletion(alarmInfo.getTime(),
-//                                db.readAlarmSettings(alarmId),
-//                                alarmInfo.getName(), alarmInfo.enabled());
-//                    }
-//                })
-//                .show();
-//            }
-//        };
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
 
- //       ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                final AlarmInfo alarmInfo = adapter.getAlarmInfos().
+                        get(viewHolder.getAdapterPosition());
 
-    //    itemTouchHelper.attachToRecyclerView(alarmList);
+                final long alarmId = alarmInfo.getAlarmId();
+
+                removeItemFromList(ActivityAlarmClock.this, alarmId,
+                        viewHolder.getAdapterPosition());
+
+                Snackbar.make(findViewById(R.id.coordinator_layout),
+                        getString(R.string.alarm_deleted), Snackbar.LENGTH_LONG)
+                .setAction(getString(R.string.undo), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        undoAlarmDeletion(alarmInfo.getTime(),
+                                db.readAlarmSettings(alarmId),
+                                alarmInfo.getName(), alarmInfo.enabled());
+                    }
+                })
+                .show();
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+
+        itemTouchHelper.attachToRecyclerView(alarmList);
 
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.add_fab);
 
@@ -170,7 +164,7 @@ public final class ActivityAlarmClock extends AppCompatActivity implements
                 picker.setAccentColor(AppSettings.getTimePickerColor(
                         ActivityAlarmClock.this));
 
-                picker.vibrate(false);
+                picker.vibrate(true);
 
                 if (AppSettings.isDebugMode(ActivityAlarmClock.this)) {
                     picker.enableSeconds(true);
@@ -257,7 +251,6 @@ public final class ActivityAlarmClock extends AppCompatActivity implements
             public void run(NotificationServiceInterface service) {
                 int count;
 
-
                 try {
                     count = service.firingAlarmCount();
                 } catch (RemoteException e) {
@@ -265,12 +258,6 @@ public final class ActivityAlarmClock extends AppCompatActivity implements
                 }
 
                 if (count > 0) {
-                   // if (audM.isWiredHeadsetOn()) {
-                    //    audM.setMode(AudioManager.MODE_IN_CALL);
-                      //  audM.setSpeakerphoneOn(false);
-
-                      //  play();
-                   // }
                     Intent notifyActivity = new Intent(getApplicationContext(),
                             ActivityAlarmNotification.class);
 
@@ -373,27 +360,27 @@ public final class ActivityAlarmClock extends AppCompatActivity implements
 
                 startActivity(app_settings);
                 break;
-//            case ACTION_TEST_ALARM:
-//                // Used in debug mode.  Schedules an alarm for 5 seconds in the future
-//                // when clicked.
-//                final Calendar testTime = Calendar.getInstance();
-//
-//                testTime.add(Calendar.SECOND, 5);
-//
-//                AlarmTime time = new AlarmTime(
-//                        testTime.get(Calendar.HOUR_OF_DAY),
-//                        testTime.get(Calendar.MINUTE),
-//                        testTime.get(Calendar.SECOND));
-//
-//                service.createAlarm(time);
-//
-//                requery();
-//                break;
-//            case ACTION_PENDING_ALARMS:
-//                // Displays a list of pending alarms (only visible in debug mode).
-//                startActivity(new Intent(getApplicationContext(),
-//                        ActivityPendingAlarms.class));
-//                break;
+            case ACTION_TEST_ALARM:
+                // Used in debug mode.  Schedules an alarm for 5 seconds in the future
+                // when clicked.
+                final Calendar testTime = Calendar.getInstance();
+
+                testTime.add(Calendar.SECOND, 5);
+
+                AlarmTime time = new AlarmTime(
+                        testTime.get(Calendar.HOUR_OF_DAY),
+                        testTime.get(Calendar.MINUTE),
+                        testTime.get(Calendar.SECOND));
+
+                service.createAlarm(time);
+
+                requery();
+                break;
+            case ACTION_PENDING_ALARMS:
+                // Displays a list of pending alarms (only visible in debug mode).
+                startActivity(new Intent(getApplicationContext(),
+                        ActivityPendingAlarms.class));
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -405,14 +392,6 @@ public final class ActivityAlarmClock extends AppCompatActivity implements
 
         dialog.show(getFragmentManager(), "ActivityDialogFragment");
     }
-
-//    public void play() {
-//        mMediaPlayer = new MediaPlayer();
-//        mMediaPlayer = MediaPlayer.create(this, R.raw.myz);
-//        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-//        mMediaPlayer.setLooping(false);
-//        mMediaPlayer.start();
-//    }
 
     private void redraw() {
         // Recompute expiration times in the list view

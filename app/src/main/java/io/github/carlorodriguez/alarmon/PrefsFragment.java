@@ -108,7 +108,7 @@ public class PrefsFragment extends PreferenceFragmentCompat implements
     public boolean onPreferenceClick(Preference preference) {
         if (preference.getKey().equalsIgnoreCase(getString(
                 R.string.settings_about_key))) {
-            //startActivity(new Intent(getActivity(), AboutTabbedActivity.class));
+            startActivity(new Intent(getActivity(), AboutTabbedActivity.class));
             return true;
         }
         return false;
