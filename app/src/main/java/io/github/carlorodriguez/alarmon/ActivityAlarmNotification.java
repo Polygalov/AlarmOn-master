@@ -169,11 +169,18 @@ public final class ActivityAlarmNotification extends AppCompatActivity {
         dismiss.setOnCompleteListener(new Slider.OnCompleteListener() {
             @Override
             public void complete() {
-                notifyService.acknowledgeCurrentNotification(0);
-
-                finish();
+                finishCall();
+//                notifyService.acknowledgeCurrentNotification(0);
+//
+//                finish();
             }
         });
+    }
+
+    public void finishCall() {
+        notifyService.acknowledgeCurrentNotification(0);
+
+        finish();
     }
 
     @Override
@@ -214,7 +221,12 @@ public final class ActivityAlarmNotification extends AppCompatActivity {
         // The notification service has signaled this activity for a second time.
         // This represents a acknowledgment timeout.  Display the appropriate error.
         // (which also finish()es this activity.
-        showDialogFragment(TIMEOUT);
+        finishCall();
+//        try {
+//        showDialogFragment(TIMEOUT);
+//        } catch (Exception e) {
+//            return;
+//        }
     }
 
     private void redraw() {
@@ -249,7 +261,7 @@ public final class ActivityAlarmNotification extends AppCompatActivity {
                 String info = infoTime + "\n" + infoName;
 
                 if (AppSettings.isDebugMode(getApplicationContext())) {
-                    info += " [" + alarmId + "]";
+                    //   info += " [" + alarmId + "]";
 
                     findViewById(R.id.volume).setVisibility(View.VISIBLE);
                 } else {
@@ -270,7 +282,7 @@ public final class ActivityAlarmNotification extends AppCompatActivity {
         });
     }
 
-    private void showDialogFragment(int id) {
+    private void showDialogFragment(int id) throws Exception {
         DialogFragment dialog = new ActivityDialogFragment().newInstance(
                 id);
 
@@ -312,6 +324,15 @@ public final class ActivityAlarmNotification extends AppCompatActivity {
                     });
 
                     AlertDialog dialog = timeoutBuilder.create();
+
+                    dialog.setCanceledOnTouchOutside(true);
+                    timeoutBuilder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialog) {
+                            // dialog dismiss without button press
+                            getActivity().finish();
+                        }
+                    });
 
                     dialog.setOnDismissListener(new DialogInterface.
                             OnDismissListener() {

@@ -280,6 +280,7 @@ public class NotificationService extends Service {
     private Runnable soundCheck;
     private Runnable notificationBlinker;
     private Runnable autoCancel;
+    private ActivityAlarmNotification mActivityAlarmNotification;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -361,6 +362,7 @@ public class NotificationService extends Service {
                 } catch (NoAlarmsException e) {
                     return;
                 }
+//                mActivityAlarmNotification.finishCall();
 
                 Intent notifyActivity = new Intent(getApplicationContext(), ActivityAlarmNotification.class);
                 notifyActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
