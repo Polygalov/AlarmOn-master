@@ -114,8 +114,8 @@ public final class ActivityAlarmNotification extends AppCompatActivity {
                 });
             }
         };
-
-        // Setup individual UI elements.
+//////////////////////////////////
+        //  Setup individual UI elements.
 //        final Button snoozeButton = (Button) findViewById(R.id.notify_snooze);
 //
 //        snoozeButton.setOnClickListener(new View.OnClickListener() {
@@ -162,7 +162,8 @@ public final class ActivityAlarmNotification extends AppCompatActivity {
 //                redraw();
 //            }
 //        });
-
+//////////////////////////////////
+        //  отключение звонка!!!!
         final Slider dismiss = (Slider) findViewById(R.id.dismiss_slider);
 
         dismiss.setOnCompleteListener(new Slider.OnCompleteListener() {

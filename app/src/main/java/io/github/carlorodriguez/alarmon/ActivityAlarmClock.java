@@ -108,40 +108,41 @@ public final class ActivityAlarmClock extends AppCompatActivity implements
 
         alarmList.setLayoutManager(layoutManager);
 
-        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                return false;
-            }
+//        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+//            @Override
+//            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+//                return false;
+//            }
 
-            @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                final AlarmInfo alarmInfo = adapter.getAlarmInfos().
-                        get(viewHolder.getAdapterPosition());
+//            @Override
+//            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+//                final AlarmInfo alarmInfo = adapter.getAlarmInfos().
+//                        get(viewHolder.getAdapterPosition());
+//
+//                final long alarmId = alarmInfo.getAlarmId();
+//
+//                removeItemFromList(ActivityAlarmClock.this, alarmId,
+//                        viewHolder.getAdapterPosition());
+//
+//                Snackbar.make(findViewById(R.id.coordinator_layout),
+//                        getString(R.string.alarm_deleted), Snackbar.LENGTH_LONG)
+//                .setAction(getString(R.string.undo), new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        undoAlarmDeletion(alarmInfo.getTime(),
+//                                db.readAlarmSettings(alarmId),
+//                                alarmInfo.getName(), alarmInfo.enabled());
+//                    }
+//                })
+//                .show();
+//            }
+//        };
 
-                final long alarmId = alarmInfo.getAlarmId();
+//        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+//
+//        itemTouchHelper.attachToRecyclerView(alarmList);
 
-                removeItemFromList(ActivityAlarmClock.this, alarmId,
-                        viewHolder.getAdapterPosition());
-
-                Snackbar.make(findViewById(R.id.coordinator_layout),
-                        getString(R.string.alarm_deleted), Snackbar.LENGTH_LONG)
-                .setAction(getString(R.string.undo), new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        undoAlarmDeletion(alarmInfo.getTime(),
-                                db.readAlarmSettings(alarmId),
-                                alarmInfo.getName(), alarmInfo.enabled());
-                    }
-                })
-                .show();
-            }
-        };
-
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
-
-        itemTouchHelper.attachToRecyclerView(alarmList);
-
+        // NEW BUDILNIK
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.add_fab);
 
         fab.setOnClickListener(new View.OnClickListener() {
