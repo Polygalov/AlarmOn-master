@@ -117,16 +117,35 @@ public class NotificationService extends Service {
             vibrator = (Vibrator) c.getSystemService(Context.VIBRATOR_SERVICE);
         }
 
-        private void ensureSound(Context c) {
+        private void ensureSound(Context c, AlarmSettings settings, Runnable volumeIncreaseCallback) {
+            AudioManager audM = (AudioManager) c.getSystemService(Context.AUDIO_SERVICE);
+            audM.setMode(AudioManager.MODE_IN_CALL);
+            audM.setSpeakerphoneOn(false);
+            if (!audM.isWiredHeadsetOn()) {
+                System.out.println(" TEST Отключения!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                MediaSingleton.INSTANCE.normalizeVolume(c, 0.0f);
+//                setVolume(0.0f);
+//                mediaPlayer.setVolume(0.0f, 0.0f);
 
-
-            if (!mediaPlayer.isPlaying() &&
-                    fallbackSound != null && !fallbackSound.isPlaying()) {
-                Toast.makeText(c, "метод ENSURE", Toast.LENGTH_LONG).show();
-
-                fallbackSound.play();
-                //   fallbackSound.stop();
+                //  Toast.makeText(c, "000000", Toast.LENGTH_LONG).show();
+            } else {
+                System.out.println(" TEST Включения!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                // volumeIncreaseCallback.reset(settings);
+                MediaSingleton.INSTANCE.normalizeVolume(
+                        //          c, (float) (1 - (Math.log(100 - settings.getVolumePercent()) / Math.log(100))));
+                        c, 0.2f);
+//                float volume = (float) (1 - (Math.log(100 - settings.getVolumePercent()) / Math.log(100)));
+//                mediaPlayer.setVolume(volume, volume);
+//                setVolume(volume);
             }
+
+//            if (!mediaPlayer.isPlaying() &&
+//                    fallbackSound != null && !fallbackSound.isPlaying()) {
+//             //   Toast.makeText(c, "метод ENSURE", Toast.LENGTH_LONG).show();
+//
+//                fallbackSound.play();
+//                //   fallbackSound.stop();
+//            }
 
             //           mediaPlayer = MediaPlayer.create(c, R.raw.myz);
             //          mediaPlayer.start();
@@ -171,9 +190,9 @@ public class NotificationService extends Service {
 
 
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            audM.setMode(AudioManager.MODE_NORMAL);
-            // audM.setMode(AudioManager.MODE_IN_CALL);
-            audM.setSpeakerphoneOn(false);
+            // audM.setMode(AudioManager.MODE_IN_COMMUNICATION);
+            audM.setMode(AudioManager.MODE_IN_CALL);
+            // audM.setSpeakerphoneOn(false);
 
             // audM.setMode(AudioManager.MODE_NORMAL);
             // audM.setSpeakerphoneOn(false);
@@ -185,24 +204,24 @@ public class NotificationService extends Service {
                 float volume = (float) (1 - (Math.log(100 - settings.getVolumePercent()) / Math.log(100)));
 
                 if (!audM.isWiredHeadsetOn()) {
-                    mediaPlayer.setVolume(0.01f, 0.01f);
+                    System.out.println(" TEST HEARPHONES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                    setVolume(0.0f);
+                    mediaPlayer.setVolume(0.0f, 0.0f);
+                    audM.setMode(AudioManager.MODE_IN_COMMUNICATION);
+                    audM.setSpeakerphoneOn(false);
                     //  Toast.makeText(c, "000000", Toast.LENGTH_LONG).show();
-                } else mediaPlayer.setVolume(volume, volume);
+                } else {
+                    System.out.println(" BAD TEST !!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                    mediaPlayer.setVolume(volume, volume);
+                }
                 mediaPlayer.start();
-                //  final int count = 0;
+
                 final int var = ((settings.getLengthSignal() + 1) + (settings.getPauseBeetweenSignals() + 1)) * 100 * (settings.getNumberOfSignals() + 1);
                 final int len = settings.getLengthSignal() + 1; // от 1 до 50
                 final int pauses = settings.getPauseBeetweenSignals() + 1; // от 1 до 50
-                System.out.println(var + " var");
-                System.out.println(settings.getNumberOfSignals() + 1 + " NUMBER SIGNALS");
 
-                System.out.println(len + " len");
-                System.out.println(pauses + " pauses");
-
-                //    int var = 2 * 1000 * (settings.getNumberOfSignals()+1);
                 CountDownTimer cntTimer = new CountDownTimer(var, 100) {
                     int count = 1;
-                    int totalCNT = 0;
 
                     public void onTick(long millisUntilFinished) {
                         if (count == len) {
@@ -213,44 +232,18 @@ public class NotificationService extends Service {
                             count = 0;
                         }
                         count++;
-                        totalCNT++;
-
-                        System.out.println(totalCNT + " TOTAL CAUNT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-//                            if(mediaPlayer.isPlaying()){
-//                                mediaPlayer.pause();
-//                            } else {
-//                                mediaPlayer.start();
-//                            }
-
                     }
 
                     public void onFinish() {
-                        System.out.println(" SELF DISRTUCT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                        // release();
                         notifyService = new NotificationServiceBinder(cont);
                         notifyService.bind();
                         notifyService.acknowledgeCurrentNotification(0);
-
-                        //  finish();
-                        //  notService.stopNotifying();
-//                            try {
-//                                notService.acknowledgeCurrentNotification(0);
-//                            } catch (NoAlarmsException e) {
-//                                return;
-//                            }
-//
-//                            Intent notifyActivity = new Intent(notService.getApplicationContext(), ActivityAlarmNotification.class);
-//                            notifyActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                            notifyActivity.putExtra(ActivityAlarmNotification.TIMEOUT_COMMAND, true);
-//                            notService.startActivity(notifyActivity);
-
-
                     }
                 }.start();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            //      }
+
         }
 
         public void stop() {
@@ -313,8 +306,8 @@ public class NotificationService extends Service {
             @Override
             public void run() {
                 // Some sound should always be playing.
-                //       AlarmSettings settings = db.readAlarmSettings(0);
-                ////    MediaSingleton.INSTANCE.ensureSound(getApplicationContext());
+                AlarmSettings settings = db.readAlarmSettings(0);
+                MediaSingleton.INSTANCE.ensureSound(getApplicationContext(), settings, volumeIncreaseCallback);
                 //       MediaSingleton.INSTANCE.play(getApplicationContext(), settings.getTone(), settings);
 
                 long next = AlarmUtil.millisTillNextInterval(AlarmUtil.Interval.SECOND);
@@ -362,8 +355,6 @@ public class NotificationService extends Service {
                 } catch (NoAlarmsException e) {
                     return;
                 }
-//                mActivityAlarmNotification.finishCall();
-
                 Intent notifyActivity = new Intent(getApplicationContext(), ActivityAlarmNotification.class);
                 notifyActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 notifyActivity.putExtra(ActivityAlarmNotification.TIMEOUT_COMMAND, true);
@@ -469,13 +460,22 @@ public class NotificationService extends Service {
     private void soundAlarm(long alarmId) {
         // Begin notifying based on settings for this alaram.
         AlarmSettings settings = db.readAlarmSettings(alarmId);
+        final AudioManager audioManage = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 //    if (settings.getVibrate()) {
 //      MediaSingleton.INSTANCE.vibrate();
 //    }
+////// REAl SET VOLUME
 
-        volumeIncreaseCallback.reset(settings);
-        MediaSingleton.INSTANCE.normalizeVolume(
-                getApplicationContext(), (float) (settings.getVolumePercent() / 100.0));
+        if (!audioManage.isWiredHeadsetOn()) {
+            MediaSingleton.INSTANCE.normalizeVolume(
+                    getApplicationContext(), 0.0f);
+            audioManage.setMode(AudioManager.MODE_IN_COMMUNICATION);
+            audioManage.setSpeakerphoneOn(false);
+        } else {
+            volumeIncreaseCallback.reset(settings);
+            MediaSingleton.INSTANCE.normalizeVolume(
+                    getApplicationContext(), (float) (1 - (Math.log(100 - settings.getVolumePercent()) / Math.log(100))));
+        }
         //    getApplicationContext(), volumeIncreaseCallback.volume(settings));
         MediaSingleton.INSTANCE.play(getApplicationContext(), settings.getTone(), settings);
 
@@ -514,7 +514,7 @@ public class NotificationService extends Service {
 
         public float volume(AlarmSettings settings) {
             //    return start;
-            return (float) (settings.getVolumePercent() / 100.0);
+            return (float) (1 - (Math.log(100 - settings.getVolumePercent()) / Math.log(100)));
         }
 
         public float volume() {
@@ -522,7 +522,7 @@ public class NotificationService extends Service {
         }
 
         public void reset(AlarmSettings settings) {
-            start = (float) (settings.getVolumePercent() / 100.0);
+            start = (float) (1 - (Math.log(100 - settings.getVolumePercent()) / Math.log(100)));
             //   end = (float) (settings.getVolumeEndPercent() / 100.0);
             //  increment = (end - start) / (float) settings.getVolumeChangeTimeSec();
         }
