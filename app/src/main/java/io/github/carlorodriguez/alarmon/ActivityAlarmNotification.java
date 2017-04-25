@@ -95,16 +95,16 @@ public final class ActivityAlarmNotification extends AppCompatActivity {
                         ServiceCallback() {
                     @Override
                     public void run(NotificationServiceInterface service) {
-                        try {
-                            TextView volume = (TextView)
-                                    findViewById(R.id.volume);
-
-                            String volumeText = "Volume: " + service.volume();
-
-                            volume.setText(volumeText);
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
-                        }
+//                        try {
+//                            TextView volume = (TextView)
+//                                    findViewById(R.id.volume);
+//
+//                            String volumeText = "Volume: " + service.volume();
+//
+//                            volume.setText(volumeText);
+//                        } catch (RemoteException e) {
+//                            e.printStackTrace();
+//                        }
 
                         long next = AlarmUtil.millisTillNextInterval(
                                 AlarmUtil.Interval.SECOND);
@@ -263,9 +263,9 @@ public final class ActivityAlarmNotification extends AppCompatActivity {
                 if (AppSettings.isDebugMode(getApplicationContext())) {
                     //   info += " [" + alarmId + "]";
 
-                    findViewById(R.id.volume).setVisibility(View.VISIBLE);
-                } else {
-                    findViewById(R.id.volume).setVisibility(View.GONE);
+//                    findViewById(R.id.volume).setVisibility(View.VISIBLE);
+//                } else {
+//                    findViewById(R.id.volume).setVisibility(View.GONE);
                 }
                 TextView infoText = (TextView) findViewById(R.id.alarm_info);
 

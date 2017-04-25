@@ -76,7 +76,7 @@ public final class AlarmClockService extends Service {
         continue;
       }
       if (AppSettings.isDebugMode(getApplicationContext())) {
-        Toast.makeText(getApplicationContext(), "RENABLE " + alarmId, Toast.LENGTH_SHORT).show();
+        // Toast.makeText(getApplicationContext(), "RENABLE " + alarmId, Toast.LENGTH_SHORT).show();
       }
 
         AlarmTime alarmTime = null;
@@ -125,12 +125,12 @@ public final class AlarmClockService extends Service {
           break;
         case COMMAND_TIMEZONE_CHANGE:
           if (AppSettings.isDebugMode(getApplicationContext())) {
-            Toast.makeText(getApplicationContext(), "TIMEZONE CHANGE, RESCHEDULING...", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "TIMEZONE CHANGE, RESCHEDULING...", Toast.LENGTH_SHORT).show();
           }
           for (long alarmId : pendingAlarms.pendingAlarms()) {
             scheduleAlarm(alarmId);
             if (AppSettings.isDebugMode(getApplicationContext())) {
-              Toast.makeText(getApplicationContext(), "ALARM " + alarmId, Toast.LENGTH_SHORT).show();
+              // Toast.makeText(getApplicationContext(), "ALARM " + alarmId, Toast.LENGTH_SHORT).show();
             }
           }
           handler.post(maybeShutdown);

@@ -59,7 +59,7 @@ public class NotificationServiceInterfaceStub extends NotificationServiceInterfa
   private void debugToast(String message) {
     Context context = service.getApplicationContext();
     if (AppSettings.isDebugMode(context)) {
-      Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+      // Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
   }
 }

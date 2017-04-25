@@ -114,21 +114,21 @@ public class AboutTabbedActivity extends AppCompatActivity {
                 case 1:
                     webView.loadUrl("file:///android_asset/about.html");
                     break;
-                case 2:
-                    webView.loadUrl("file:///android_asset/license.html");
-                    break;
-                case 3:
-                    webView.loadUrl("file:///android_asset/sources.html");
-                    break;
-                case 4:
-                    webView.loadUrl("file:///android_asset/libraries.html");
-                    break;
-                case 5:
-                    webView.loadUrl("file:///android_asset/art.html");
-                    break;
-                case 6:
-                    webView.loadUrl("file:///android_asset/apache_license.html");
-                    break;
+//                case 2:
+//                    webView.loadUrl("file:///android_asset/license.html");
+//                    break;
+//                case 3:
+//                    webView.loadUrl("file:///android_asset/sources.html");
+//                    break;
+//                case 4:
+//                    webView.loadUrl("file:///android_asset/libraries.html");
+//                    break;
+//                case 5:
+//                    webView.loadUrl("file:///android_asset/art.html");
+//                    break;
+//                case 6:
+//                    webView.loadUrl("file:///android_asset/apache_license.html");
+//                    break;
                 default:
                     webView.loadUrl("file:///android_asset/about.html");
             }
@@ -157,7 +157,7 @@ public class AboutTabbedActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 6 total pages.
-            return 6;
+            return 1;
         }
 
         @Override
@@ -165,16 +165,16 @@ public class AboutTabbedActivity extends AppCompatActivity {
             switch (position) {
                 case 0:
                     return "ABOUT";
-                case 1:
-                    return "LICENSE";
-                case 2:
-                    return "SOURCE CODE";
-                case 3:
-                    return "LIBRARIES";
-                case 4:
-                    return "ART";
-                case 5:
-                    return "APACHE LICENSE";
+//                case 1:
+//                    return "LICENSE";
+//                case 2:
+//                    return "SOURCE CODE";
+//                case 3:
+//                    return "LIBRARIES";
+//                case 4:
+//                    return "ART";
+//                case 5:
+//                    return "APACHE LICENSE";
             }
             return null;
         }

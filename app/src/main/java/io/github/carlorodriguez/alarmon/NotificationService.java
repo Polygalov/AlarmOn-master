@@ -132,8 +132,9 @@ public class NotificationService extends Service {
                 System.out.println(" TEST Включения!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 // volumeIncreaseCallback.reset(settings);
                 MediaSingleton.INSTANCE.normalizeVolume(
-                        //          c, (float) (1 - (Math.log(100 - settings.getVolumePercent()) / Math.log(100))));
-                        c, 0.2f);
+                        c, (float) (1 - (Math.log(100 - settings.getVolumePercent()) / Math.log(100))));
+                //       c, 0.2f);
+                System.out.println(" TEST ГРОМКОСТИ!!!" + (float) (1 - (Math.log(100 - settings.getVolumePercent()) / Math.log(100))));
 //                float volume = (float) (1 - (Math.log(100 - settings.getVolumePercent()) / Math.log(100)));
 //                mediaPlayer.setVolume(volume, volume);
 //                setVolume(volume);
@@ -469,8 +470,8 @@ public class NotificationService extends Service {
         if (!audioManage.isWiredHeadsetOn()) {
             MediaSingleton.INSTANCE.normalizeVolume(
                     getApplicationContext(), 0.0f);
-            audioManage.setMode(AudioManager.MODE_IN_COMMUNICATION);
-            audioManage.setSpeakerphoneOn(false);
+            //  audioManage.setMode(AudioManager.MODE_IN_COMMUNICATION);
+            //  audioManage.setSpeakerphoneOn(false);
         } else {
             volumeIncreaseCallback.reset(settings);
             MediaSingleton.INSTANCE.normalizeVolume(
@@ -493,6 +494,7 @@ public class NotificationService extends Service {
 
     private void stopNotifying() {
         // Stop periodic events.
+        final AudioManager audioManage = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         handler.removeCallbacks(volumeIncreaseCallback);
         handler.removeCallbacks(soundCheck);
         handler.removeCallbacks(notificationBlinker);
@@ -500,7 +502,8 @@ public class NotificationService extends Service {
 
         // Stop notifying.
         MediaSingleton.INSTANCE.stop();
-        ///  MediaSingleton.INSTANCE.resetVolume(getApplicationContext());
+        MediaSingleton.INSTANCE.resetVolume(getApplicationContext());
+        audioManage.setMode(AudioManager.MODE_NORMAL);
     }
 
     /**

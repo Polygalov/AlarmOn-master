@@ -10,7 +10,7 @@
   <string name="label">Описание</string>
   <string name="alarm_label">Описание сигнала</string>
   <string name="none">Нет</string>
-  <string name="repeat">Рассписание</string>
+  <string name="repeat">Расписание</string>
   <string name="scheduled_days">График</string>
   <string name="tone">Мелодия</string>
   <string name="alarm_tone">Мелодия сигнала</string>
@@ -61,7 +61,7 @@
   <string name="everyday">Каждый день</string>
   <string name="weekdays">Будни</string>
   <string name="weekends">Выходные</string>
-  <string name="debug_mode_title">Режим дебага</string>
+  <string name="debug_mode_title">Режим дебаАга</string>
   <string name="debug_mode_summary">Включение различных функций отладки</string>
   <string name="debug_default">По умолчанию</string>
   <string name="debug_on">Включен</string>
@@ -77,33 +77,33 @@
   <string name="lock_screen_custom">Пользовательский ...</string>
   <string name="lock_screen_nothing">Ничего</string>
   <string name="internal">Внутренний</string>
-  <string name="artists">Artists</string>
-  <string name="albums">Albums</string>
-  <string name="songs">Songs</string>
-  <string name="selected">Selected: </string>
-  <string name="custom_lock_screen_text">Custom lock screen text</string>
+  <string name="artists">Исполнители</string>
+  <string name="albums">Альбомы</string>
+  <string name="songs">Песни</string>
+  <string name="selected">Выбрано: </string>
+  <string name="custom_lock_screen_text">Пользовательский текст блокировки экрана</string>
   <string name="custom_lock_screen_description" formatted="false">This is the text that will display on the lock screen.  In your text, you may use the string %c to display the count down time and/or the string %t to display the alarm time.\nExample: Hello %t\nWould appear as: Hello 8:00 am\nIf the \'Persistent\' box is checked.  The string will remain on the lock screen even when no alarm is scheduled.</string>
   <string name="custom_lock_screen_persistent">Persistent</string>
   <string name="time_out_title">Тайм-аут будильника</string>
-  <string name="time_out_error">WARNING: This alarm has timed out waiting for an acknowledgment.</string>
-  <string name="time_out_summary">A firing alarm will be automatically dismissed after this many minutes.</string>
-  <string name="pending_alarms">Pending Alarms</string>
-  <string name="test_alarm">Test Alarm</string>
+  <string name="time_out_error">ПРЕДУПРЕЖДЕНИЕ: закончился сигнал тревоги, подтвердите.</string>
+  <string name="time_out_summary">По истечении этого периода запущенный сигнал будет отключен.</string>
+  <string name="pending_alarms">Ожидающие сигналы</string>
+  <string name="test_alarm">Тестовый сигнал</string>
   <string name="app_theme_title">Внешность</string>
   <string name="app_theme_summary">Изменение цветов приложения</string>
   <string name="themes">Темы</string>
   <string name="dark">Темная</string>
   <string name="light">Светлая</string>
   <string name="dark_light">Темно-светлая</string>
-  <string name="read_external_storage_title">Read files</string>
-  <string name="read_external_storage_message">We need your permission to read your media files so you can set your own alarm tone.</string>
-  <string name="grant">Grant</string>
-  <string name="permission_not_granted">We are sorry, we cannot access this feature until you grant us permission.</string>
-  <string name="permission_not_granted_title">Permission not granted</string>
-  <string name="notification_text_title">Notification text</string>
+  <string name="read_external_storage_title">Чтение файлов</string>
+  <string name="read_external_storage_message">Нам нужно ваше разрешение на чтение ваших медиафайлов, чтобы вы могли установить собственный сигнал будильника.</string>
+  <string name="grant">Разрешаю</string>
+  <string name="permission_not_granted">К сожалению, мы не можем получить доступ к этой функции, пока вы не предоставите нам разрешение.</string>
+  <string name="permission_not_granted_title">Разрешение не предоставлено</string>
+  <string name="notification_text_title">Текст уведомления</string>
   <string name="notification_text_summary">Настройка информации о будильнике, отображаемом в уведомлении</string>
   <string name="custom_notification_text">Пользовательский текст уведомления</string>
-  <string name="custom_notification_text_description" formatted="false">This is the text that will display on the notification. In your text, you may use the string ${c} to display the count down time and/or the string ${t} to display the alarm time.\nExample: Hello ${t}\nWould appear as: Hello 8:00 AM</string>
+  <string name="custom_notification_text_description" formatted="false">Это текст, который будет отображаться в уведомлении. В вашем тексте вы можете использовать строку ${c}, чтобы отобразить время отсчета времени и/или строку ${t}, чтобы отобразить время будильника. \nПример: Hello ${t} \nОтобразится как: Hello 8:00 AM</string>
   <string name="time_picker_color_title">Цвет выбора времени</string>
   <string name="time_picker_color_summary">Выберите цвет для выбора времени.</string>
   <string name="red">Красный</string>
@@ -138,7 +138,7 @@
   <string name="undo">ОТМЕНА</string>
   <string name="swipe_right_to_delete">Всем привет! Проведите прямо по этой карте и посмотрите, что произойдет.</string>
   <string name="material_intro_id_alarm_deletion">material_intro_id_119.104</string>
-  <string name="signal">Громкость сигнала</string>
+  <string name="signal">Мощность сигнала</string>
   <string name="repeats_count">Количество сигналов</string>
   <string name="signal_long">Длина сигнала</string>
   <string name="pause_signal">Пауза между сигналами</string>
