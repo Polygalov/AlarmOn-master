@@ -3,9 +3,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -95,16 +95,6 @@ public final class ActivityAlarmNotification extends AppCompatActivity {
                         ServiceCallback() {
                     @Override
                     public void run(NotificationServiceInterface service) {
-//                        try {
-//                            TextView volume = (TextView)
-//                                    findViewById(R.id.volume);
-//
-//                            String volumeText = "Volume: " + service.volume();
-//
-//                            volume.setText(volumeText);
-//                        } catch (RemoteException e) {
-//                            e.printStackTrace();
-//                        }
 
                         long next = AlarmUtil.millisTillNextInterval(
                                 AlarmUtil.Interval.SECOND);
@@ -114,55 +104,7 @@ public final class ActivityAlarmNotification extends AppCompatActivity {
                 });
             }
         };
-//////////////////////////////////
-        //  Setup individual UI elements.
-//        final Button snoozeButton = (Button) findViewById(R.id.notify_snooze);
-//
-//        snoozeButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                notifyService.acknowledgeCurrentNotification(snoozeMinutes);
-//
-//                finish();
-//            }
-//        });
-//
-//        final Button decreaseSnoozeButton = (Button) findViewById(
-//                R.id.notify_snooze_minus_five);
-//
-//        decreaseSnoozeButton.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                int snooze = snoozeMinutes - 5;
-//
-//                if (snooze < 5) {
-//                    snooze = 5;
-//                }
-//
-//                snoozeMinutes = snooze;
-//
-//                redraw();
-//            }
-//        });
-//
-//        final Button increaseSnoozeButton = (Button) findViewById(
-//                R.id.notify_snooze_plus_five);
-//
-//        increaseSnoozeButton.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                int snooze = snoozeMinutes + 5;
-//
-//                if (snooze > 60) {
-//                    snooze = 60;
-//                }
-//
-//                snoozeMinutes = snooze;
-//
-//                redraw();
-//            }
-//        });
-//////////////////////////////////
+
         //  отключение звонка!!!!
         final Slider dismiss = (Slider) findViewById(R.id.dismiss_slider);
 
@@ -170,9 +112,7 @@ public final class ActivityAlarmNotification extends AppCompatActivity {
             @Override
             public void complete() {
                 finishCall();
-//                notifyService.acknowledgeCurrentNotification(0);
-//
-//                finish();
+
             }
         });
     }
@@ -222,11 +162,7 @@ public final class ActivityAlarmNotification extends AppCompatActivity {
         // This represents a acknowledgment timeout.  Display the appropriate error.
         // (which also finish()es this activity.
         finishCall();
-//        try {
-//        showDialogFragment(TIMEOUT);
-//        } catch (Exception e) {
-//            return;
-//        }
+
     }
 
     private void redraw() {
@@ -261,23 +197,16 @@ public final class ActivityAlarmNotification extends AppCompatActivity {
                 String info = infoTime + "\n" + infoName;
 
                 if (AppSettings.isDebugMode(getApplicationContext())) {
-                    //   info += " [" + alarmId + "]";
 
-//                    findViewById(R.id.volume).setVisibility(View.VISIBLE);
-//                } else {
-//                    findViewById(R.id.volume).setVisibility(View.GONE);
                 }
                 TextView infoText = (TextView) findViewById(R.id.alarm_info);
 
                 infoText.setText(info);
 
-//                TextView snoozeInfo = (TextView) findViewById(
-//                        R.id.notify_snooze_time);
 
                 String snoozeInfoText = getString(R.string.snooze) + "\n"
                         + getString(R.string.minutes, snoozeMinutes);
 
-//                snoozeInfo.setText(snoozeInfoText);
             }
         });
     }
@@ -318,10 +247,11 @@ public final class ActivityAlarmNotification extends AppCompatActivity {
                     timeoutBuilder.setMessage(R.string.time_out_error);
 
                     timeoutBuilder.setPositiveButton(R.string.ok,
-                            new DialogInterface.OnClickListener(){
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {}
-                    });
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            });
 
                     AlertDialog dialog = timeoutBuilder.create();
 
@@ -339,7 +269,8 @@ public final class ActivityAlarmNotification extends AppCompatActivity {
                         @Override
                         public void onDismiss(DialogInterface dialog) {
                             getActivity().finish();
-                        }});
+                        }
+                    });
 
                     return dialog;
                 default:

@@ -7,14 +7,7 @@
       android:orderInCategory="2"
       app:showAsAction="never"
       />
-<!--
-  <item
-      android:id="@+id/action_default_settings"
-      android:title="@string/default_settings"
-      android:orderInCategory="3"
-      app:showAsAction="never"
-      />
--->
+
   <item
       android:id="@+id/action_app_settings"
       android:title="@string/app_settings"

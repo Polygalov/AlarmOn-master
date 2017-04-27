@@ -122,49 +122,17 @@ public class NotificationService extends Service {
             audM.setMode(AudioManager.MODE_IN_CALL);
             audM.setSpeakerphoneOn(false);
             if (!audM.isWiredHeadsetOn()) {
-                System.out.println(" TEST Отключения!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                MediaSingleton.INSTANCE.normalizeVolume(c, 0.0f);
-//                setVolume(0.0f);
-//                mediaPlayer.setVolume(0.0f, 0.0f);
 
-                //  Toast.makeText(c, "000000", Toast.LENGTH_LONG).show();
+                MediaSingleton.INSTANCE.normalizeVolume(c, 0.0f);
+
             } else {
-                System.out.println(" TEST Включения!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                // volumeIncreaseCallback.reset(settings);
+
+
                 MediaSingleton.INSTANCE.normalizeVolume(
                         c, (float) (1 - (Math.log(100 - settings.getVolumePercent()) / Math.log(100))));
-                //       c, 0.2f);
-                System.out.println(" TEST ГРОМКОСТИ!!!" + (float) (1 - (Math.log(100 - settings.getVolumePercent()) / Math.log(100))));
-//                float volume = (float) (1 - (Math.log(100 - settings.getVolumePercent()) / Math.log(100)));
-//                mediaPlayer.setVolume(volume, volume);
-//                setVolume(volume);
+
             }
 
-//            if (!mediaPlayer.isPlaying() &&
-//                    fallbackSound != null && !fallbackSound.isPlaying()) {
-//             //   Toast.makeText(c, "метод ENSURE", Toast.LENGTH_LONG).show();
-//
-//                fallbackSound.play();
-//                //   fallbackSound.stop();
-//            }
-
-            //           mediaPlayer = MediaPlayer.create(c, R.raw.myz);
-            //          mediaPlayer.start();
-///           }
-//            AudioManager audM = (AudioManager) c.getSystemService(Context.AUDIO_SERVICE);
-//            mediaPlayer.reset();
-//            mediaPlayer.setLooping(false);
-//            //      if (audM.isWiredHeadsetOn()) {
-//            //        audM.setMode(AudioManager.MODE_IN_CALL);
-//            //        audM.setSpeakerphoneOn(false);
-//            try {
-//                //  mediaPlayer.setDataSource(c, tone);
-//                mediaPlayer = MediaPlayer.create(c, R.raw.myz);
-//                mediaPlayer.prepare();
-//                mediaPlayer.start();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
         }
 
         private void vibrate() {
@@ -179,40 +147,30 @@ public class NotificationService extends Service {
 
         public void play(Context c, Uri tone, AlarmSettings settings) {
             final Context cont = c;
-            //       AlarmSettings settings = db.readAlarmSettings(alarmId);
-            //      Toast.makeText(c, "метод PLAY", Toast.LENGTH_LONG).show();
-            //   public void play(Context c) {
+
             final AudioManager audM = (AudioManager) c.getSystemService(Context.AUDIO_SERVICE);
             mediaPlayer.reset();
             mediaPlayer.setLooping(true);
-            //     if (audM.isWiredHeadsetOn()) {
-            //      audM.setMode(AudioManager.MODE_IN_CALL);
-            //    audM.setSpeakerphoneOn(false);
-
 
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            // audM.setMode(AudioManager.MODE_IN_COMMUNICATION);
-            audM.setMode(AudioManager.MODE_IN_CALL);
-            // audM.setSpeakerphoneOn(false);
 
-            // audM.setMode(AudioManager.MODE_NORMAL);
-            // audM.setSpeakerphoneOn(false);
+            audM.setMode(AudioManager.MODE_IN_CALL);
+
             try {
                 mediaPlayer.setDataSource(c, tone);
-                // mediaPlayer = MediaPlayer.create(c, R.raw.myz);
                 mediaPlayer.prepare();
-                //     Toast.makeText(c, settings.getVolumePercent(), Toast.LENGTH_LONG).show();
+
                 float volume = (float) (1 - (Math.log(100 - settings.getVolumePercent()) / Math.log(100)));
 
                 if (!audM.isWiredHeadsetOn()) {
-                    System.out.println(" TEST HEARPHONES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
                     setVolume(0.0f);
                     mediaPlayer.setVolume(0.0f, 0.0f);
                     audM.setMode(AudioManager.MODE_IN_COMMUNICATION);
                     audM.setSpeakerphoneOn(false);
-                    //  Toast.makeText(c, "000000", Toast.LENGTH_LONG).show();
+
                 } else {
-                    System.out.println(" BAD TEST !!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
                     mediaPlayer.setVolume(volume, volume);
                 }
                 mediaPlayer.start();
@@ -309,7 +267,7 @@ public class NotificationService extends Service {
                 // Some sound should always be playing.
                 AlarmSettings settings = db.readAlarmSettings(0);
                 MediaSingleton.INSTANCE.ensureSound(getApplicationContext(), settings, volumeIncreaseCallback);
-                //       MediaSingleton.INSTANCE.play(getApplicationContext(), settings.getTone(), settings);
+
 
                 long next = AlarmUtil.millisTillNextInterval(AlarmUtil.Interval.SECOND);
                 handler.postDelayed(soundCheck, next);
@@ -462,22 +420,19 @@ public class NotificationService extends Service {
         // Begin notifying based on settings for this alaram.
         AlarmSettings settings = db.readAlarmSettings(alarmId);
         final AudioManager audioManage = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-//    if (settings.getVibrate()) {
-//      MediaSingleton.INSTANCE.vibrate();
-//    }
+
 ////// REAl SET VOLUME
 
         if (!audioManage.isWiredHeadsetOn()) {
             MediaSingleton.INSTANCE.normalizeVolume(
                     getApplicationContext(), 0.0f);
-            //  audioManage.setMode(AudioManager.MODE_IN_COMMUNICATION);
-            //  audioManage.setSpeakerphoneOn(false);
+
         } else {
             volumeIncreaseCallback.reset(settings);
             MediaSingleton.INSTANCE.normalizeVolume(
                     getApplicationContext(), (float) (1 - (Math.log(100 - settings.getVolumePercent()) / Math.log(100))));
         }
-        //    getApplicationContext(), volumeIncreaseCallback.volume(settings));
+
         MediaSingleton.INSTANCE.play(getApplicationContext(), settings.getTone(), settings);
 
         // Start periodic events for handling this notification.
@@ -526,21 +481,14 @@ public class NotificationService extends Service {
 
         public void reset(AlarmSettings settings) {
             start = (float) (1 - (Math.log(100 - settings.getVolumePercent()) / Math.log(100)));
-            //   end = (float) (settings.getVolumeEndPercent() / 100.0);
-            //  increment = (end - start) / (float) settings.getVolumeChangeTimeSec();
+
         }
 
         @Override
         public void run() {
-//      start += increment;
-//      if (start > end) {
-//        start = end;
-//      }
+
             MediaSingleton.INSTANCE.setVolume(start);
 
-//      if (Math.abs(start - end) > (float) 0.0001) {
-//        handler.postDelayed(volumeIncreaseCallback, 1000);
-//      }
         }
     }
 }

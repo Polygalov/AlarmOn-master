@@ -103,7 +103,7 @@ public class AboutTabbedActivity extends AppCompatActivity {
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
+                                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_about_tabbed,
                     container, false);
 
@@ -114,21 +114,7 @@ public class AboutTabbedActivity extends AppCompatActivity {
                 case 1:
                     webView.loadUrl("file:///android_asset/about.html");
                     break;
-//                case 2:
-//                    webView.loadUrl("file:///android_asset/license.html");
-//                    break;
-//                case 3:
-//                    webView.loadUrl("file:///android_asset/sources.html");
-//                    break;
-//                case 4:
-//                    webView.loadUrl("file:///android_asset/libraries.html");
-//                    break;
-//                case 5:
-//                    webView.loadUrl("file:///android_asset/art.html");
-//                    break;
-//                case 6:
-//                    webView.loadUrl("file:///android_asset/apache_license.html");
-//                    break;
+
                 default:
                     webView.loadUrl("file:///android_asset/about.html");
             }
@@ -165,16 +151,7 @@ public class AboutTabbedActivity extends AppCompatActivity {
             switch (position) {
                 case 0:
                     return "ABOUT";
-//                case 1:
-//                    return "LICENSE";
-//                case 2:
-//                    return "SOURCE CODE";
-//                case 3:
-//                    return "LIBRARIES";
-//                case 4:
-//                    return "ART";
-//                case 5:
-//                    return "APACHE LICENSE";
+
             }
             return null;
         }

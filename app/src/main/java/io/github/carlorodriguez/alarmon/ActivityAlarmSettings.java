@@ -33,7 +33,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -103,13 +102,13 @@ public final class ActivityAlarmSettings extends AppCompatActivity implements
 
     public static final int NAME_PICKER = 1;
     public static final int DOW_PICKER = 2;
-    public static final int TONE_PICKER = 3;
-    public static final int SNOOZE_PICKER = 4;
+    public static final int VOLUME_PICKER = 3;
+    public static final int NUMBER_SIGNALS_PICKER = 4;
     public static final int VOLUME_FADE_PICKER = 5;
     public static final int DELETE_CONFIRM = 6;
     public static final int EXPLAIN_READ_EXTERNAL_STORAGE = 7;
     public static final int PERMISSION_NOT_GRANTED = 8;
-    public static final int VIBRATE_PICKER = 9;
+    public static final int LENGTH_SIGNAL_PICKER = 9;
     public static final int VOLUME = 9;
 
     private TimePickerDialog picker;
@@ -201,19 +200,6 @@ public final class ActivityAlarmSettings extends AppCompatActivity implements
             }
 
 
-//          if (savedInstanceState.containsKey(SETTINGS_VOLUME_START_PERCENT_KEY)
-//                  && savedInstanceState.containsKey(SETTINGS_VOLUME_END_PERCENT_KEY)
-//                  && savedInstanceState.containsKey(SETTINGS_VOLUME_CHANGE_TIME_SEC_KEY)) {
-//              settings.setVolumeStartPercent(savedInstanceState.getInt(
-//                      SETTINGS_VOLUME_START_PERCENT_KEY));
-//
-//              settings.setVolumeEndPercent(savedInstanceState.getInt(
-//                      SETTINGS_VOLUME_END_PERCENT_KEY));
-//
-//              settings.setVolumeChangeTimeSec(savedInstanceState.getInt(
-//                      SETTINGS_VOLUME_CHANGE_TIME_SEC_KEY));
-//          }
-
             if (savedInstanceState.containsKey(SETTINGS_TONE_URI_KEY)
                     && savedInstanceState.containsKey(SETTINGS_TONE_NAME_KEY)) {
                 settings.setTone((Uri) savedInstanceState.getParcelable(SETTINGS_TONE_URI_KEY),
@@ -291,10 +277,7 @@ public final class ActivityAlarmSettings extends AppCompatActivity implements
             @Override
             public String value() {
                 String value = Integer.toString(settings.getVolumePercent());
-//        String value = settings.getToneName();
-//        if (AppSettings.isDebugMode(getApplicationContext())) {
-//          value += " " + settings.getTone().toString();
-//        }
+
                 return value;
             }
 
@@ -312,11 +295,10 @@ public final class ActivityAlarmSettings extends AppCompatActivity implements
 
             @Override
             public String value() {
-                String number = Integer.toString(settings.getNumberOfSignals()+1);
+                String number = Integer.toString(settings.getNumberOfSignals() + 1);
                 return number;
             }
 
-            // { return "" + settings.getSnoozeMinutes(); }
             @Override
             public SettingType type() {
                 return SettingType.SNOOZE;
@@ -330,10 +312,8 @@ public final class ActivityAlarmSettings extends AppCompatActivity implements
             }
 
             @Override
-            public String value()
-            //{ return settings.getVibrate() ? getString(R.string.enabled) : getString(R.string.disabled); }
-            {
-                String lenght = Float.toString((settings.getLengthSignal()+1)/10.0f);
+            public String value() {
+                String lenght = Float.toString((settings.getLengthSignal() + 1) / 10.0f);
                 return lenght + "c";
             }
 
@@ -351,13 +331,10 @@ public final class ActivityAlarmSettings extends AppCompatActivity implements
 
             @Override
             public String value() {
-                String pause = Float.toString((settings.getPauseBeetweenSignals()+1)/10.0f);
+                String pause = Float.toString((settings.getPauseBeetweenSignals() + 1) / 10.0f);
                 return pause + "c";
             }
 
-            //      { return getString(R.string.fade_description,
-//          settings.getVolumeStartPercent(), settings.getVolumeEndPercent(),
-//          settings.getVolumeChangeTimeSec()); }
             @Override
             public SettingType type() {
                 return SettingType.VOLUME_FADE;
@@ -456,7 +433,7 @@ public final class ActivityAlarmSettings extends AppCompatActivity implements
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 showProgressDialog();
 
-                showDialogFragment(TONE_PICKER);
+                showDialogFragment(VOLUME_PICKER);
             } else {
                 showDialogFragment(PERMISSION_NOT_GRANTED);
             }
@@ -615,23 +592,18 @@ public final class ActivityAlarmSettings extends AppCompatActivity implements
                     break;
 
                 case TONE:
-//            if (ContextCompat.checkSelfPermission(ActivityAlarmSettings.this,
-//                    Manifest.permission.READ_EXTERNAL_STORAGE)
-//                    == PackageManager.PERMISSION_GRANTED) {
-//                showProgressDialog();
 
-                    showDialogFragment(TONE_PICKER);
-//            } else {
-//                requestReadExternalStoragePermission();
-//            }
+
+                    showDialogFragment(VOLUME_PICKER);
+
                     break;
 
                 case SNOOZE:
-                    showDialogFragment(SNOOZE_PICKER);
+                    showDialogFragment(NUMBER_SIGNALS_PICKER);
                     break;
 
                 case VIBRATE:
-                    showDialogFragment(VIBRATE_PICKER);
+                    showDialogFragment(LENGTH_SIGNAL_PICKER);
                     break;
 
                 case VOLUME_FADE:
@@ -811,7 +783,7 @@ public final class ActivityAlarmSettings extends AppCompatActivity implements
                     });
                     return dowBuilder.create();
 
-                case TONE_PICKER: //Громкость
+                case VOLUME_PICKER: //Громкость
                     final View fadeView = View.inflate(getActivity(), R.layout.volume_settings, null);
 
                     final SeekBar seekBar = (SeekBar) fadeView.findViewById(R.id.volume_power2);
@@ -864,30 +836,9 @@ public final class ActivityAlarmSettings extends AppCompatActivity implements
                         }
                     });
                     return volumeBuilder.create();
-//              MediaPickerDialog mediaPicker = new MediaPickerDialog(getActivity());
-//              mediaPicker.setOnShowListener(new DialogInterface.OnShowListener() {
-//                  @Override
-//                  public void onShow(DialogInterface dialog) {
-//                      if (progressDialog != null) {
-//                          progressDialog.dismiss();
-//
-//                          progressDialog = null;
-//                      }
-//                  }
-//              });
-//              mediaPicker.setPickListener(new MediaPickerDialog.OnMediaPickListener() {
-//                  @Override
-//                  public void onMediaPick(String name, Uri media) {
-//                      if (name.length() == 0) {
-//                          name = getString(R.string.unknown_name);
-//                      }
-//                      settings.setTone(media, name);
-//                      settingsAdapter.notifyDataSetChanged();
-//                  }
-//              });
-//              return mediaPicker;
 
-                case SNOOZE_PICKER: // Количество сигналов
+
+                case NUMBER_SIGNALS_PICKER: // Количество сигналов
                     final View fadeView2 = View.inflate(getActivity(), R.layout.signal_count, null);
 
                     final SeekBar seekBar2 = (SeekBar) fadeView2.findViewById(R.id.sigCnt_seek);
@@ -900,13 +851,13 @@ public final class ActivityAlarmSettings extends AppCompatActivity implements
                             R.id.sigCnt);
 
                     textView2.setText(getString(R.string.repeats_count_mess,
-                            settings.getNumberOfSignals()+1));
+                            settings.getNumberOfSignals() + 1));
 
                     seekBar2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                         @Override
                         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                             textView2.setText(getString(R.string.repeats_count_mess,
-                                    progress +1));
+                                    progress + 1));
                         }
 
                         @Override
@@ -935,7 +886,7 @@ public final class ActivityAlarmSettings extends AppCompatActivity implements
                     fadeBuilder2.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                                  dismiss();
+                            dismiss();
                         }
                     });
                     return fadeBuilder2.create();
@@ -945,22 +896,9 @@ public final class ActivityAlarmSettings extends AppCompatActivity implements
 //              final CharSequence[] items = new CharSequence[60];
 //              // Note the array index is one-off from the value (the value of 1 is
 //              // at index 0).
-//              for (int i = 1; i <= 60; ++i) {
-//                  items[i-1] = Integer.toString(i);
-//              }
-//              final AlertDialog.Builder snoozeBuilder = new AlertDialog.Builder(getActivity());
-//              snoozeBuilder.setTitle(R.string.snooze_minutes);
-//              snoozeBuilder.setSingleChoiceItems(items, settings.getSnoozeMinutes() - 1,
-//                      new DialogInterface.OnClickListener() {
-//                          public void onClick(DialogInterface dialog, int item) {
-//                              settings.setSnoozeMinutes(item + 1);
-//                              settingsAdapter.notifyDataSetChanged();
-//                              dismiss();
-//                          }
-//                      });
-//              return snoozeBuilder.create();
 
-                case VIBRATE_PICKER: // Длина сигнала
+
+                case LENGTH_SIGNAL_PICKER: // Длина сигнала
                     final View fadeView4 = View.inflate(getActivity(), R.layout.lenthsignal_settings, null);
 
                     final SeekBar seekBar4 = (SeekBar) fadeView4.findViewById(R.id.lenSig_seek);
@@ -973,15 +911,14 @@ public final class ActivityAlarmSettings extends AppCompatActivity implements
                             R.id.lenSig);
 
                     textView4.setText(getString(R.string.signal_lenght,
-                            (float) (settings.getLengthSignal()+1)/10));
+                            (float) (settings.getLengthSignal() + 1) / 10));
 
                     seekBar4.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                         @Override
                         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                            //progress_value = (float)progress/10;
-                            // (Float.toString(progress_value));
+
                             textView4.setText(getString(R.string.signal_lenght,
-                                    (float) (progress+1) / 10));
+                                    (float) (progress + 1) / 10));
                         }
 
                         @Override
@@ -1003,18 +940,13 @@ public final class ActivityAlarmSettings extends AppCompatActivity implements
                             settings.setLengthSignal(seekBar4.getProgress());
                             settingsAdapter.notifyDataSetChanged();
                             dismiss();
-                            //         settings.setVolumeStartPercent(seekBar.getProgress());
 
-
-                            //       settingsAdapter.notifyDataSetChanged();
-
-                            //      dismiss();
                         }
                     });
                     fadeBuilder4.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                                  dismiss();
+                            dismiss();
                         }
                     });
                     return fadeBuilder4.create();
@@ -1033,13 +965,13 @@ public final class ActivityAlarmSettings extends AppCompatActivity implements
                             R.id.pause);
 
                     textView3.setText(getString(R.string.pause_lenght,
-                            (float) (settings.getPauseBeetweenSignals()+1)/10));
+                            (float) (settings.getPauseBeetweenSignals() + 1) / 10));
 
                     seekBar3.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                         @Override
                         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                             textView3.setText(getString(R.string.pause_lenght,
-                                    (float) (progress +1) / 10));
+                                    (float) (progress + 1) / 10));
                         }
 
                         @Override
@@ -1068,125 +1000,11 @@ public final class ActivityAlarmSettings extends AppCompatActivity implements
                     fadeBuilder3.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                                  dismiss();
+                            dismiss();
                         }
                     });
                     return fadeBuilder3.create();
-//              final View fadeView1 = View.inflate(getActivity(), R.layout.fade_settings_dialog, null);
-//
-//              final SeekBar seekBar1 = (SeekBar) fadeView1.findViewById(R.id.volume_start_sb);
-//
-//              seekBar1.setMax(100);
-//
-//              seekBar1.setProgress(settings.getVolumeStartPercent());
-//
-//              final TextView textView1 = (TextView) fadeView1.findViewById(
-//                      R.id.volume_start_tv);
-//
-//              textView1.setText(getString(R.string.volume_start_label,
-//                      settings.getVolumeStartPercent()));
-//
-//              seekBar1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//                  @Override
-//                  public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//                      textView1.setText(getString(R.string.volume_start_label,
-//                              progress));
-//                  }
-//
-//                  @Override
-//                  public void onStartTrackingTouch(SeekBar seekBar) {
-//
-//                  }
-//
-//                  @Override
-//                  public void onStopTrackingTouch(SeekBar seekBar) {
-//
-//                  }
-//              });
-//
-//              final SeekBar endSeekBar = (SeekBar) fadeView1.findViewById(R.id.volume_end_sb);
-//
-//              endSeekBar.setMax(100);
-//
-//              endSeekBar.setProgress(settings.getVolumeEndPercent());
-//
-//              final TextView endTextView = (TextView) fadeView1.findViewById(
-//                      R.id.volume_end_tv);
-//
-//              endTextView.setText(getString(R.string.volume_end_label,
-//                      settings.getVolumeEndPercent()));
-//
-//              endSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//                  @Override
-//                  public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//                      endTextView.setText(getString(R.string.volume_end_label,
-//                              progress));
-//                  }
-//
-//                  @Override
-//                  public void onStartTrackingTouch(SeekBar seekBar) {
-//
-//                  }
-//
-//                  @Override
-//                  public void onStopTrackingTouch(SeekBar seekBar) {
-//
-//                  }
-//              });
-//
-//              final SeekBar durationSeekBar = (SeekBar) fadeView1.findViewById(
-//                      R.id.volume_duration_sb);
-//
-//              durationSeekBar.setMax(300);
-//
-//              durationSeekBar.setProgress(settings.getVolumeChangeTimeSec());
-//
-//              final TextView durationTextView = (TextView) fadeView1.findViewById(
-//                      R.id.volume_duration_tv);
-//
-//              durationTextView.setText(getString(R.string.volume_duration_label,
-//                              settings.getVolumeChangeTimeSec()));
-//
-//              durationSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//                  @Override
-//                  public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//                      durationTextView.setText(getString(R.string.volume_duration_label,
-//                                      progress));
-//                  }
-//
-//                  @Override
-//                  public void onStartTrackingTouch(SeekBar seekBar) {
-//
-//                  }
-//
-//                  @Override
-//                  public void onStopTrackingTouch(SeekBar seekBar) {
-//
-//                  }
-//              });
-//
-//              final AlertDialog.Builder fadeBuilder1 = new AlertDialog.Builder(getActivity());
-//              fadeBuilder1.setTitle(R.string.alarm_fade);
-//              fadeBuilder1.setView(fadeView1);
-//              fadeBuilder1.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-//                  @Override
-//                  public void onClick(DialogInterface dialog, int which) {
-//                      settings.setVolumeStartPercent(seekBar1.getProgress());
-//                      settings.setVolumeEndPercent(endSeekBar.getProgress());
-//                      settings.setVolumeChangeTimeSec(durationSeekBar.getProgress());
-//
-//                      settingsAdapter.notifyDataSetChanged();
-//
-//                      dismiss();
-//                  }
-//              });
-//              fadeBuilder1.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-//                  @Override
-//                  public void onClick(DialogInterface dialog, int which) {
-//                      dismiss();
-//                  }
-//              });
-//              return fadeBuilder1.create();
+
 
                 case DELETE_CONFIRM:
                     final AlertDialog.Builder deleteConfirmBuilder = new AlertDialog.Builder(getActivity());

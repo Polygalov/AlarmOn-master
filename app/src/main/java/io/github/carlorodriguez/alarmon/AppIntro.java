@@ -34,19 +34,7 @@ public class AppIntro {
 
         editor.apply();
 
-//        new MaterialIntroView.Builder(activity)
-//                .enableDotAnimation(false)
-//                .enableIcon(true)
-//                .setFocusGravity(FocusGravity.CENTER)
-//                .setFocusType(Focus.NORMAL)
-//                .setDelayMillis(200)
-//                .enableFadeAnimation(true)
-//                .setInfoText(activity.
-//                        getString(R.string.swipe_right_to_delete))
-//                .setTarget(view)
-//                .setUsageId(activity.
-//                        getString(R.string.material_intro_id_alarm_deletion))
-//                .show();
+
     }
 
 }

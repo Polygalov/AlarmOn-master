@@ -77,7 +77,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.ContentViewH
         if (AppSettings.isDebugMode(context)) {
             alarmId = " [" + info.getAlarmId() + "]";
         }
-      //  String timeText = timeStr + alarmId;
+
         String timeText = timeStr;
 
         holder.timeView.setText(timeText);

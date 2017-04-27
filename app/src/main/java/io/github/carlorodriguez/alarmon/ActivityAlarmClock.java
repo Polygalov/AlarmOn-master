@@ -107,42 +107,6 @@ public final class ActivityAlarmClock extends AppCompatActivity implements
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         alarmList.setLayoutManager(layoutManager);
-        // budilnik();
-
-//        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
-//            @Override
-//            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-//                return false;
-//            }
-
-//            @Override
-//            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-//                final AlarmInfo alarmInfo = adapter.getAlarmInfos().
-//                        get(viewHolder.getAdapterPosition());
-//
-//                final long alarmId = alarmInfo.getAlarmId();
-//
-//                removeItemFromList(ActivityAlarmClock.this, alarmId,
-//                        viewHolder.getAdapterPosition());
-//
-//                Snackbar.make(findViewById(R.id.coordinator_layout),
-//                        getString(R.string.alarm_deleted), Snackbar.LENGTH_LONG)
-//                .setAction(getString(R.string.undo), new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        undoAlarmDeletion(alarmInfo.getTime(),
-//                                db.readAlarmSettings(alarmId),
-//                                alarmInfo.getName(), alarmInfo.enabled());
-//                    }
-//                })
-//                .show();
-//            }
-//        };
-
-//        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
-//
-//        itemTouchHelper.attachToRecyclerView(alarmList);
-
 
         // NEW BUDILNIK
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.add_fab);
@@ -233,40 +197,6 @@ public final class ActivityAlarmClock extends AppCompatActivity implements
         }
     }
 
-    public void budilnik() {
-        Calendar now = Calendar.getInstance();
-
-        picker = TimePickerDialog.newInstance(
-                ActivityAlarmClock.this,
-                ActivityAlarmClock.this,
-                now.get(Calendar.HOUR_OF_DAY),
-                now.get(Calendar.MINUTE),
-                DateFormat.is24HourFormat(ActivityAlarmClock.this)
-        );
-
-        if (AppSettings.isThemeDark(ActivityAlarmClock.this)) {
-            picker.setThemeDark(true);
-        }
-
-        picker.setAccentColor(AppSettings.getTimePickerColor(
-                ActivityAlarmClock.this));
-
-        picker.vibrate(true);
-
-        if (AppSettings.isDebugMode(ActivityAlarmClock.this)) {
-            picker.enableSeconds(true);
-        } else {
-            picker.enableSeconds(false);
-        }
-
-        AlarmTime time = new AlarmTime(now.get(Calendar.HOUR_OF_DAY),
-                now.get(Calendar.MINUTE), 0);
-
-        picker.setTitle(time.timeUntilString(ActivityAlarmClock.this));
-
-        picker.show(getFragmentManager(), "TimePickerDialog");
-        //picker.createAlarms();
-    }
 
     @Override
     protected void onResume() {
@@ -354,8 +284,6 @@ public final class ActivityAlarmClock extends AppCompatActivity implements
     public boolean onCreateOptionsMenu(Menu menu) {
         if (AppSettings.isDebugMode(getApplicationContext())) {
             menu.add(Menu.NONE, ACTION_TEST_ALARM, 5, R.string.test_alarm);
-//
-//            menu.add(Menu.NONE, ACTION_PENDING_ALARMS, 6, R.string.pending_alarms);
         }
 
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -385,15 +313,7 @@ public final class ActivityAlarmClock extends AppCompatActivity implements
             case R.id.action_delete_all:
                 showDialogFragment(DELETE_CONFIRM);
                 break;
-//            case R.id.action_default_settings:
-//                Intent alarm_settings = new Intent(getApplicationContext(),
-//                        ActivityAlarmSettings.class);
-//
-//                alarm_settings.putExtra(ActivityAlarmSettings.EXTRAS_ALARM_ID,
-//                        AlarmSettings.DEFAULT_SETTINGS_ID);
-//
-//                startActivity(alarm_settings);
-//                break;
+
             case R.id.action_app_settings:
                 Intent app_settings = new Intent(getApplicationContext(),
                         ActivityAppSettings.class);
@@ -404,20 +324,6 @@ public final class ActivityAlarmClock extends AppCompatActivity implements
                 // Used in debug mode.  Schedules an alarm for 5 seconds in the future
                 // when clicked.
                 final Calendar testTime = Calendar.getInstance();
-
-                //testTime.add(Calendar.SECOND, 5);
-                /// testTime.add(Calendar.MINUTE, 5);
-
-//                testTime.add(Calendar.SECOND, 5);
-//
-//                AlarmTime time = new AlarmTime(
-//                        testTime.get(Calendar.HOUR_OF_DAY),
-//                        testTime.get(Calendar.MINUTE),
-//                        testTime.get(Calendar.SECOND));
-//
-//                service.createAlarm(time);
-//
-//                requery();
 
                 for (int i = 0; i < 49; i++) {
                     testTime.add(Calendar.MINUTE, 5);

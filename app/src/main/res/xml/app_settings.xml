@@ -63,14 +63,5 @@
         android:key="@string/settings_about_key"
         android:title="@string/about"
         />
-  <!--
-    <ListPreference android:persistent="true"
-      android:key="DEBUG_MODE"
-      android:title="@string/debug_mode_title"
-      android:dialogTitle="@string/debug_mode_title"
-      android:summary="@string/debug_mode_summary"
-      android:entries="@array/debug_types"
-      android:entryValues="@array/debug_values"
-      android:defaultValue="debug_default" />
-      -->
+
 </PreferenceScreen>
