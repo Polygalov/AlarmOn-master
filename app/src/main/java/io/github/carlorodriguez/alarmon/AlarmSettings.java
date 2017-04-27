@@ -82,9 +82,9 @@ public final class AlarmSettings {
     volumeEndPercent = 100;
     volumeChangeTimeSec = 20;
     volumePercent = 100;
-    lengthSignal = 49;
-    pauseBeetweenSignals = 49;
-    numberOfSignals = 99;
+    lengthSignal = 9;
+    pauseBeetweenSignals = 9;
+    numberOfSignals = 9;
   }
 
   public AlarmSettings(AlarmSettings rhs) {

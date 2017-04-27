@@ -126,7 +126,7 @@ public final class AppSettings {
     final String SIXTY_MIN = values[4];
 
     final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
-    final String value = prefs.getString(ALARM_TIMEOUT, TEN_MIN);
+      final String value = prefs.getString(ALARM_TIMEOUT, ONE_MIN);
     if (value.equals(ONE_MIN)) {
       return 1;
     } else if (value.equals(FIVE_MIN)) {

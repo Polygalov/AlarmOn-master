@@ -88,7 +88,7 @@
   <string name="time_out_error">ПРЕДУПРЕЖДЕНИЕ: закончился сигнал тревоги, подтвердите.</string>
   <string name="time_out_summary">По истечении этого периода запущенный сигнал будет отключен.</string>
   <string name="pending_alarms">Ожидающие сигналы</string>
-  <string name="test_alarm">Тестовый сигнал</string>
+  <string name="test_alarm">Создать ночной сет</string>
   <string name="app_theme_title">Внешность</string>
   <string name="app_theme_summary">Изменение цветов приложения</string>
   <string name="themes">Темы</string>
@@ -114,7 +114,7 @@
   <string name="blue">Синий</string>
   <string name="light_blue">Светло-синий</string>
   <string name="cyan">Голубой</string>
-  <string name="teal">Утка</string>
+  <string name="teal">Бирюзовый</string>
   <string name="green">Зеленый</string>
   <string name="light_green">Светло-зеленый</string>
   <string name="orange">Оранжевый</string>

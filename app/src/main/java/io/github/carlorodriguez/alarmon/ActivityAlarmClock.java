@@ -107,6 +107,7 @@ public final class ActivityAlarmClock extends AppCompatActivity implements
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         alarmList.setLayoutManager(layoutManager);
+        // budilnik();
 
 //        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
 //            @Override
@@ -141,6 +142,7 @@ public final class ActivityAlarmClock extends AppCompatActivity implements
 //        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
 //
 //        itemTouchHelper.attachToRecyclerView(alarmList);
+
 
         // NEW BUDILNIK
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.add_fab);
@@ -179,7 +181,9 @@ public final class ActivityAlarmClock extends AppCompatActivity implements
                 picker.setTitle(time.timeUntilString(ActivityAlarmClock.this));
 
                 picker.show(getFragmentManager(), "TimePickerDialog");
+
             }
+
         });
 
         // This is a self-scheduling callback that is responsible for refreshing
@@ -227,6 +231,41 @@ public final class ActivityAlarmClock extends AppCompatActivity implements
 
             requery();
         }
+    }
+
+    public void budilnik() {
+        Calendar now = Calendar.getInstance();
+
+        picker = TimePickerDialog.newInstance(
+                ActivityAlarmClock.this,
+                ActivityAlarmClock.this,
+                now.get(Calendar.HOUR_OF_DAY),
+                now.get(Calendar.MINUTE),
+                DateFormat.is24HourFormat(ActivityAlarmClock.this)
+        );
+
+        if (AppSettings.isThemeDark(ActivityAlarmClock.this)) {
+            picker.setThemeDark(true);
+        }
+
+        picker.setAccentColor(AppSettings.getTimePickerColor(
+                ActivityAlarmClock.this));
+
+        picker.vibrate(true);
+
+        if (AppSettings.isDebugMode(ActivityAlarmClock.this)) {
+            picker.enableSeconds(true);
+        } else {
+            picker.enableSeconds(false);
+        }
+
+        AlarmTime time = new AlarmTime(now.get(Calendar.HOUR_OF_DAY),
+                now.get(Calendar.MINUTE), 0);
+
+        picker.setTitle(time.timeUntilString(ActivityAlarmClock.this));
+
+        picker.show(getFragmentManager(), "TimePickerDialog");
+        //picker.createAlarms();
     }
 
     @Override
@@ -313,11 +352,11 @@ public final class ActivityAlarmClock extends AppCompatActivity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-//        if (AppSettings.isDebugMode(getApplicationContext())) {
-//            menu.add(Menu.NONE, ACTION_TEST_ALARM, 5, R.string.test_alarm);
+        if (AppSettings.isDebugMode(getApplicationContext())) {
+            menu.add(Menu.NONE, ACTION_TEST_ALARM, 5, R.string.test_alarm);
 //
 //            menu.add(Menu.NONE, ACTION_PENDING_ALARMS, 6, R.string.pending_alarms);
-//        }
+        }
 
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
@@ -366,16 +405,28 @@ public final class ActivityAlarmClock extends AppCompatActivity implements
                 // when clicked.
                 final Calendar testTime = Calendar.getInstance();
 
-                testTime.add(Calendar.SECOND, 5);
+                //testTime.add(Calendar.SECOND, 5);
+                /// testTime.add(Calendar.MINUTE, 5);
 
-                AlarmTime time = new AlarmTime(
-                        testTime.get(Calendar.HOUR_OF_DAY),
-                        testTime.get(Calendar.MINUTE),
-                        testTime.get(Calendar.SECOND));
+//                testTime.add(Calendar.SECOND, 5);
+//
+//                AlarmTime time = new AlarmTime(
+//                        testTime.get(Calendar.HOUR_OF_DAY),
+//                        testTime.get(Calendar.MINUTE),
+//                        testTime.get(Calendar.SECOND));
+//
+//                service.createAlarm(time);
+//
+//                requery();
+
+                for (int i = 0; i < 49; i++) {
+                    testTime.add(Calendar.MINUTE, 5);
+                    AlarmTime time = new AlarmTime(4, +i * 5, 0, Week.EVERYDAY);
 
                 service.createAlarm(time);
 
                 requery();
+                }
                 break;
             case ACTION_PENDING_ALARMS:
                 // Displays a list of pending alarms (only visible in debug mode).
