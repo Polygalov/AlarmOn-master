@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="app_name">Будильник</string>
+  <string name="app_name">Sleep Dream</string>
   <string name="add_alarm">Добавить будильник...</string>
   <string name="default_settings">Настройки по умолчанию...</string>
   <string name="app_settings">Настройки программы...</string>
